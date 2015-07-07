@@ -40,7 +40,7 @@ typedef enum{
 
 - (BOOL) executeQuery:(NSString *) query withParams:(NSArray *) params;
 - (BOOL) executeUpdate:(NSString *) query withParams:(NSArray *) params;
-//- (BOOL) executeTransaction:(NSString *) query withParamSets:(NSArray *) paramSets withTarget:(id) aTarget andSelector:(SEL) aSelector;
+- (BOOL) executeTransaction:(NSString *) query withParamSets:(NSArray *) paramSets withTarget:(id) aTarget andSelector:(SEL) aSelector;
 
 - (NSArray *) getNextRowAsArray;
 - (NSDictionary *) getNextRowAsDictionary;
