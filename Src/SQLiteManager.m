@@ -24,7 +24,7 @@
 //Prepare an error object at a single place to be returned to the client of this class.
 - (void) prepareError{
     dbError = [NSError errorWithDomain:@"SQLiteErrorDomain" code:sqlite3_errcode(db) userInfo:@{@"errorMessage" : [NSString stringWithCString:sqlite3_errmsg(db) encoding:NSUTF8StringEncoding]}];
-    NSLog(@"VZSQLiteManager Error: %@",dbError);
+    NSLog(@"SQLiteManager Error: %@",dbError);
 }
 
 
@@ -117,7 +117,7 @@
         
         if (numParams>0 && (params==nil || params.count!=numParams)) {
             didBind=NO;
-            dbError = [NSError errorWithDomain:VZ_SQLITE_ERROR_DOMAIN code:VZ_SQLITE_ERROR_BIND userInfo:nil];
+            dbError = [NSError errorWithDomain:SQLITE_ERROR_DOMAIN code:SQLITE_ERROR_BIND userInfo:nil];
         }else if (numParams>0) {
             for (int i=0; i<numParams; i++) {
                 id aParam=[params objectAtIndex:i];
@@ -148,7 +148,7 @@
                 
                 if (status!=SQLITE_OK) {
                     didBind=NO;
-                    dbError = [NSError errorWithDomain:VZ_SQLITE_ERROR_DOMAIN code:VZ_SQLITE_ERROR_BIND userInfo:nil];
+                    dbError = [NSError errorWithDomain:SQLITE_ERROR_DOMAIN code:SQLITE_ERROR_BIND userInfo:nil];
                     NSLog(@"executeQuery Error: Binding the parameter at: %d",i);
                     break;
                 }
@@ -161,8 +161,8 @@
         return YES;
     }
     
-    dbError = [NSError errorWithDomain:VZ_SQLITE_ERROR_DOMAIN code:VZ_SQLITE_ERROR_PREPARE userInfo:nil];
-    NSLog(@"[VZSQLiteManager] Error:executeQuery preparing the statement: %@ Error: %s",query,sqlite3_errmsg(db));
+    dbError = [NSError errorWithDomain:SQLITE_ERROR_DOMAIN code:SQLITE_ERROR_PREPARE userInfo:nil];
+    NSLog(@"[SQLiteManager] Error:executeQuery preparing the statement: %@ Error: %s",query,sqlite3_errmsg(db));
     return NO;
 }
 
@@ -197,7 +197,7 @@
         int numParams=sqlite3_bind_parameter_count(statement);
         if (numParams>0 && (params==nil || params.count!=numParams)) {
             didBind=NO;
-            dbError = [NSError errorWithDomain:VZ_SQLITE_ERROR_DOMAIN code:VZ_SQLITE_ERROR_BIND userInfo:nil];
+            dbError = [NSError errorWithDomain:SQLITE_ERROR_DOMAIN code:SQLITE_ERROR_BIND userInfo:nil];
         }else if (numParams>0) {
             for (int i=0; i<numParams; i++) {
                 id aParam=[params objectAtIndex:i];
@@ -227,7 +227,7 @@
                 
                 if (status!=SQLITE_OK) {
                     didBind=NO;
-                    dbError = [NSError errorWithDomain:VZ_SQLITE_ERROR_DOMAIN code:VZ_SQLITE_ERROR_BIND userInfo:nil];
+                    dbError = [NSError errorWithDomain:SQLITE_ERROR_DOMAIN code:SQLITE_ERROR_BIND userInfo:nil];
                     NSLog(@"executeQuery Error: Binding the parameter at: %d",i);
                     break;
                 }
@@ -248,12 +248,12 @@
         //the responsibility of doing the rollback.
         //NSLog(@"Error:executeUpdate Auto-commit off;Rollbacking the transaction \nError details: %s for query:%@",sqlite3_errmsg(db),query);
         sqlite3_exec(db, "ROLLBACK", NULL, NULL, NULL);
-        dbError = [NSError errorWithDomain:VZ_SQLITE_ERROR_DOMAIN code:VZ_SQLITE_ERROR_TRANSACTION userInfo:nil];
+        dbError = [NSError errorWithDomain:SQLITE_ERROR_DOMAIN code:SQLITE_ERROR_TRANSACTION userInfo:nil];
     }else{
-        dbError = [NSError errorWithDomain:VZ_SQLITE_ERROR_DOMAIN code:VZ_SQLITE_ERROR_PREPARE userInfo:nil];
+        dbError = [NSError errorWithDomain:SQLITE_ERROR_DOMAIN code:SQLITE_ERROR_PREPARE userInfo:nil];
     }
     
-    NSLog(@"[VZSQLiteManager] Error:executeUpdate \nError details: %s for query:%@ status = %d",sqlite3_errmsg(db),query,status);
+    NSLog(@"[SQLiteManager] Error:executeUpdate \nError details: %s for query:%@ status = %d",sqlite3_errmsg(db),query,status);
     return NO;
 }
 
@@ -324,7 +324,6 @@
     NSMutableArray *row=nil;
     
     if(sqlite3_step(statement)==SQLITE_ROW){
-        //NSLog(@"[VZSQLiteManager] getNextRowAsArray");
         row=[NSMutableArray arrayWithCapacity:currentColumnCount];
         for(int i=0;i<currentColumnCount;i++){
             int dataType=sqlite3_column_type(statement, i);

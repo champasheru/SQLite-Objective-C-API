@@ -8,15 +8,15 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 
-#define VZ_SQLITE_ERROR_DOMAIN @"SQLiteErrorDomain"
+#define SQLITE_ERROR_DOMAIN @"SQLiteErrorDomain"
 
 typedef enum{
-    VZ_SQLITE_ERROR, //Generic error
-    VZ_SQLITE_ERROR_OPEN,//Error opening an SQLite DB.
-    VZ_SQLITE_ERROR_CLOSE,//Error closing an SQLite DB.
-    VZ_SQLITE_ERROR_BIND,//Error binding params to the prepared statement;insufficient parameters can be one of it.
-    VZ_SQLITE_ERROR_PREPARE,//Error preparing the statement.
-    VZ_SQLITE_ERROR_TRANSACTION,//Error executing the transaction.
+    SQLITE_ERROR, //Generic error
+    SQLITE_ERROR_OPEN,//Error opening an SQLite DB.
+    SQLITE_ERROR_CLOSE,//Error closing an SQLite DB.
+    SQLITE_ERROR_BIND,//Error binding params to the prepared statement;insufficient parameters can be one of it.
+    SQLITE_ERROR_PREPARE,//Error preparing the statement.
+    SQLITE_ERROR_TRANSACTION,//Error executing the transaction.
 } SQLiteErrorCode;
 
 //TODO: check if Foreign Key constraints setting is on/off. Shall we enforce the FK constraints?
