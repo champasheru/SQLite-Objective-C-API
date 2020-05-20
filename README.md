@@ -1,4 +1,4 @@
-# SQLite-Objective-C-API
+# Objective C API for SQLite
 This is an Objective C API to interact with the SQLite Databases. It essentially shields all the low level C rountines &amp; functions and provides a clean &amp; consistent API through Objective C.
 
 I have used this library in 2-3 iOS apps which are pretty critical and robust in nature, as such it's a proven one.
